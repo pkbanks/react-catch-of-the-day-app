@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom'
-import StorePicker from './components/StorePicker.js'
+import { render } from 'react-dom';
+import StorePicker from './components/StorePicker.js';
+import './css/style.css';
 
-// render(<p>Heyyyy</p>, document.querySelector('#main'));
 render(<StorePicker />, document.querySelector('#main'));
