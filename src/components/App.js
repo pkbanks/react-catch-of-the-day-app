@@ -23,6 +23,11 @@ class App extends React.Component {
       state: 'fishes'
     });
   }
+
+  componentWillUnmount() {
+    // prevents a memory leak when we unmount the app, by clicking 'back' button in browser, away from store
+    base.removeBinding(this.ref);
+  }
   
   addFish = (fish) => {
     console.log('adding a fish');
