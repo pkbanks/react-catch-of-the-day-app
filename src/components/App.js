@@ -4,6 +4,7 @@ import Inventory from './Inventory';
 import Order from './Order';
 import sampleFishes from '../sample-fishes';
 import Fish from './Fish';
+import base from '../base';
 
 class App extends React.Component {
 
@@ -11,6 +12,17 @@ class App extends React.Component {
     fishes: {},
     order: {}
   };
+
+  componentDidMount() {
+    const { params } = this.props.match
+
+    // store fishes component in firebase database
+    // using the path saved in props storeId, via router
+    this.ref = base.syncState(`${params.storeId}/fishes`, {
+      context: this,
+      state: 'fishes'
+    });
+  }
   
   addFish = (fish) => {
     console.log('adding a fish');
