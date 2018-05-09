@@ -16,6 +16,13 @@ class App extends React.Component {
   componentDidMount() {
     const { params } = this.props.match
 
+    // reinstate local storage, to bring back what was there from past activity
+    // state gets cleared when we mount it
+    const localStorageRef = localStorage.getItem(params.storeId);
+    if(localStorageRef) {
+      this.setState({ order: JSON.parse(localStorageRef) });
+    }
+
     // store fishes component in firebase database
     // using the path saved in props storeId, via router
     this.ref = base.syncState(`${params.storeId}/fishes`, {
@@ -24,10 +31,16 @@ class App extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    // console.log(this.state.order);
+    localStorage.setItem(this.props.match.params.storeId, JSON.stringify(this.state.order));
+  }
+
   componentWillUnmount() {
     // prevents a memory leak when we unmount the app, by clicking 'back' button in browser, away from store
     base.removeBinding(this.ref);
   }
+
   
   addFish = (fish) => {
     console.log('adding a fish');
